@@ -1,0 +1,4 @@
+1,Tejas,78000
+2,Ganeshkar,45000.0
+4,Mane,99000.0
+3,Darshan,85000.0
