@@ -1,0 +1,182 @@
+mysql> CREATE TABLE employees (
+    ->   employee_id INT PRIMARY KEY,
+    ->   first_name VARCHAR(20),
+    ->   last_name VARCHAR(20),
+    ->   email VARCHAR(20),
+    ->   phone_number VARCHAR(20),
+    ->   hire_date DATE,
+    ->   job_id VARCHAR(20),
+    ->   salary DECIMAL(10,2),
+    ->   commission_pct DECIMAL(5,2),
+    ->   manager_id INT,
+    ->   department_id INT
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO employees
+    -> (employee_id, first_name, last_name, email, phone_number, hire_date, job_id, salary, commission_pct, manager_id, department_id) VALUES
+    -> (100, 'Steven', 'King', 'SKING', '515.123.4567', '1987-06-17', 'AD_PRES', 24000.00, 0.00, 200, 10),
+    -> (101, 'Neena', 'Kochhar', 'NKOCHHAR', '515.123.4568', '1987-06-18', 'AD_VP', 17000.00, 0.00, 200, 10),
+    -> (102, 'Lex', 'De Haan', 'LDEHAAN', '515.123.4569', '1987-06-19', 'AD_VP', 17000.00, 0.00, 200, 10),
+    -> (103, 'Alexander', 'Hunold', 'AHUNOLD', '590.423.4567', '1987-06-20', 'IT_PROG', 9000.00, 0.00, 103, 60),
+    -> (104, 'Bruce', 'Ernst', 'BERNST', '590.423.4568', '1987-06-21', 'IT_PROG', 6000.00, 0.00, 103, 60),
+    -> (105, 'David', 'Austin', 'DAUSTIN', '590.423.4569', '1987-06-22', 'IT_PROG', 4800.00, 0.00, 103, 60),
+    -> (106, 'Valli', 'Pataballa', 'VPATABAL', '590.423.4560', '1987-06-23', 'IT_PROG', 4800.00, 0.00, 103, 60),
+    -> (107, 'Diana', 'Lorentz', 'DLORENTZ', '590.423.5567', '1987-06-24', 'IT_PROG', 4200.00, 0.00, 114, 60),
+    -> (108, 'Nancy', 'Greenberg', 'NGREENBE', '515.124.4569', '1987-06-25', 'SA_MAN', 12000.00, 0.00, 145, 80),
+    -> (109, 'Daniel', 'Faviet', 'DFAVIET', '515.124.4169', '1987-06-26', 'SA_MAN', 9000.00, 0.00, 145, 80);
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> drop table department;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE TABLE departments (
+    ->   department_id INT PRIMARY KEY,
+    ->   department_name VARCHAR(30),
+    ->   manager_id INT,
+    ->   location_id INT
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO departments
+    -> (department_id, department_name, manager_id, location_id) VALUES
+    -> (10, 'Administration', 200, 1700),
+    -> (20, 'Marketing', 201, 1800),
+    -> (30, 'Purchasing', 114, 1700),
+    -> (40, 'Human Resources', 203, 2400),
+    -> (50, 'Shipping', 121, 1500),
+    -> (60, 'IT', 103, 1400),
+    -> (70, 'Public Relations', 204, 2700),
+    -> (80, 'Sales', 145, 2500);
+Query OK, 8 rows affected (0.05 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO departments (department_id, department_name, manager_id, location_id) VALUES
+    -> (90, 'Finance', 210, 2600),
+    -> (100, 'Quality Control', 215, 2700),
+    -> (110, 'Research', 220, 2800);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> desc jobs;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| job_id     | int         | NO   | PRI | NULL    |       |
+| job_title  | varchar(30) | NO   |     | NULL    |       |
+| min_salary | float       | YES  |     | NULL    |       |
+| max_salary | float       | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc job;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| job_id     | int         | NO   | PRI | NULL    |       |
+| job_title  | varchar(30) | YES  |     |         |       |
+| min_salary | float       | YES  |     | NULL    |       |
+| max_salary | float       | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> drop table jobs
+    -> ;
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE jobs (
+    ->   job_id VARCHAR(10) UNIQUE,
+    ->   job_title VARCHAR(35),
+    ->   min_salary INT,
+    ->   max_salary INT
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO jobs (job_id, job_title, min_salary, max_salary) VALUES
+    -> ('AD_PRES', 'President', 20000, 40000),
+    -> ('AD_VP', 'Administration Vice President', 15000, 30000),
+    -> ('AD_ASST', 'Administration Assistant', 3000, 6000),
+    -> ('FI_MGR', 'Finance Manager', 8200, 16000),
+    -> ('FI_ACCOUNT', 'Accountant', 4200, 9000),
+    -> ('AC_MGR', 'Accounting Manager', 8200, 16000),
+    -> ('AC_ACCOUNT', 'Public Accountant', 4200, 9000),
+    -> ('SA_MAN', 'Sales Manager', 10000, 20000);
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++-------------------------+
+| Tables_in_sqlassignment |
++-------------------------+
+| countries               |
+| departments             |
+| employees               |
+| issue                   |
+| job                     |
+| job_histry              |
+| jobs                    |
+| member101               |
++-------------------------+
+8 rows in set (0.00 sec)
+
+mysql> desc employees;
++----------------+---------------+------+-----+---------+-------+
+| Field          | Type          | Null | Key | Default | Extra |
++----------------+---------------+------+-----+---------+-------+
+| employee_id    | int           | NO   | PRI | NULL    |       |
+| first_name     | varchar(20)   | YES  |     | NULL    |       |
+| last_name      | varchar(20)   | YES  |     | NULL    |       |
+| email          | varchar(20)   | YES  |     | NULL    |       |
+| phone_number   | varchar(20)   | YES  |     | NULL    |       |
+| hire_date      | date          | YES  |     | NULL    |       |
+| job_id         | varchar(20)   | YES  |     | NULL    |       |
+| salary         | decimal(10,2) | YES  |     | NULL    |       |
+| commission_pct | decimal(5,2)  | YES  |     | NULL    |       |
+| manager_id     | int           | YES  |     | NULL    |       |
+| department_id  | int           | YES  |     | NULL    |       |
++----------------+---------------+------+-----+---------+-------+
+11 rows in set (0.00 sec)
+
+mysql> update table employees
+    -> where salary = 0.1*salary + salary;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table employees
+where salary = 0.1*salary + salary' at line 1
+mysql> update employeed
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> update employees
+    -> where salary = salary + 0.1*salary;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where salary = salary + 0.1*salary' at line 2
+mysql> update employees
+    -> where salary = salary + (0.1*salary);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where salary = salary + (0.1*salary)' at line 2
+mysql> update employees
+    -> set salary = salary + (0.1*salary);
+Query OK, 10 rows affected (0.05 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+mysql> update employees
+    -> set email = "Not Available"
+    -> where department_id = 80 and commission_pct < 0.20;
+Query OK, 2 rows affected (0.05 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> update employees
+    -> set email = "Not Available"
+    -> where department.department_name = "Purchasing";
+ERROR 1054 (42S22): Unknown column 'department.department_name' in 'where clause'
+mysql> UPDATE employees
+    -> JOIN departments ON employees.department_id = departments.department_id
+    -> SET employees.email = 'Not Available'
+    -> WHERE departments.department_name = 'Purchasing';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> UPDATE employees
+    -> SET email = 'not available',
+    ->     commission_pct = 0.10;
+Query OK, 10 rows affected (0.01 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+mysql>

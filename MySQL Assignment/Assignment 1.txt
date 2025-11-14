@@ -1,0 +1,101 @@
+mysql> use sqlassignment;
+Database changed
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| classicmodels      |
+| information_schema |
+| institute          |
+| mysql              |
+| performance_schema |
+| project            |
+| sqlassignment      |
+| sys                |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> create table countries(
+    -> country_id int(11),
+    -> country_name varchar(20),
+    -> region_id int(11)
+    -> );
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> create table jobs(
+    -> job_id int primary key,
+    -> job_title varchar(30) not null,
+    -> min_salary float,
+    -> max_salary float check (max_salary <= 25000)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table job_histry(
+    -> employee_id int primary key,
+    -> start_date date,
+    -> end_date date,
+    -> job_id int,
+    -> department_id int
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> alter table countries
+    -> add constraint pk_country_id primary key (country_id);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create table job(
+    -> job_id int primary key,
+    -> job_title varchar(30) default "",
+    -> min_salary float check (min_salary >= 8000),
+    -> max_salary float
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table department(
+    -> department_id decimal(4,0) default 0,
+    -> department_name varchar(30) not null,
+    -> manager_id decimal(6,0),
+    -> location_id decimal(4,0),
+    -> primary key (department_id,manager_id)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++-------------------------+
+| Tables_in_sqlassignment |
++-------------------------+
+| countries               |
+| department              |
+| job                     |
+| job_histry              |
+| jobs                    |
++-------------------------+
+5 rows in set (0.00 sec)
+
+mysql> desc department;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| department_id   | decimal(4,0) | NO   | PRI | 0       |       |
+| department_name | varchar(30)  | NO   |     | NULL    |       |
+| manager_id      | decimal(6,0) | NO   | PRI | NULL    |       |
+| location_id     | decimal(4,0) | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table employees(
+    -> employee_id int primary key,
+    -> first_name varchar(20),
+    -> last_name varchar(20),
+    -> email varchar(50) unique,
+    -> phone_no varchar(12) unique,
+    -> hire_date date,
+    -> job_id int,
+    -> salary float,
+    -> commission float,
+    -> department_id decimal(4,0),
+    -> manager_id decimal(6,0),
+    -> foreign key (department_id,manager_id) references department(department_id,manager_id)
+    -> );
+Query OK, 0 rows affected (0.09 sec)
